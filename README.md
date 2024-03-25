@@ -2,7 +2,7 @@
 
 #### If you are using GNU/Linux, Docker may not support host.docker.internal without additional configuration.
 
-The easiest way to solve this is to change the `nuxt.config.ts` file's runtime config `GQL_HOST` to `http://localhost/graphql`.
+The easiest way to solve this is to change the `nuxt.config.ts` file's runtime config `GQL_HOST` to `http://localhost/graphql`. This is also what should be done if you don't want to run the project with Docker.
 
 ```
   runtimeConfig: {
