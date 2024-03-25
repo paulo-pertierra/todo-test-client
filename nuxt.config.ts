@@ -14,7 +14,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      GQL_HOST: 'http://localhost/graphql' // overwritten by process.env.GQL_HOST
+      GQL_HOST: 'http://host.docker.internal/graphql' // overwritten by process.env.GQL_HOST
     }
   },
   build: {

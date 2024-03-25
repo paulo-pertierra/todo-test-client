@@ -9,10 +9,13 @@
     <!-- <v-form @submit="createTask"> -->
       <v-text-field
       v-model="newTodoItem"
+      :rules="newItemRules"
       label="Add new todo item" 
       variant="solo-filled"
       append-inner-icon="mdi-plus"
+      @keyup.prevent.enter="createTask"
       @click:append-inner="createTask"
+      :loading="isLoading"
     />
     <!-- </v-form> -->
   </div>
@@ -23,15 +26,30 @@ import { useTasksStore } from "@/store/tasks.store";
 const tasksStore = useTasksStore();
 const { tasks } = storeToRefs(tasksStore);
 
-
+const isLoading = ref(false);
 const newTodoItem = ref("");
-const createTask = () => {
-  useAsyncGql({
+const createTask = async () => {
+  if (isLoading.value) return;
+
+  isLoading.value = true;
+
+  const response = await useAsyncGql({
     operation: "createTask",
     variables: { todo: newTodoItem.value }
   })
+
+  if (response.error.value) {
+    alert(`Error: Invalid action. Please fix your input.`)
+  }
+
+  isLoading.value = false;
+
+  newTodoItem.value = "";
   tasksStore.reload();
 }
+
+const newItemRules = [(value: string) => !!value || 'This field is required.']
+
 </script>
 
 <style scoped>
