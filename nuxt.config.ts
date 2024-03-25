@@ -3,7 +3,8 @@ import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
-    '@nuxtjs/apollo',
+    'nuxt-graphql-client',
+    '@pinia/nuxt',
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) => {
         // @ts-expect-error
@@ -11,11 +12,9 @@ export default defineNuxtConfig({
       })
     },
   ],
-  apollo: {
-    clients: {
-      default: {
-        httpEndpoint: 'http://localhost:80/graphql'
-      }
+  runtimeConfig: {
+    public: {
+      GQL_HOST: 'http://localhost/graphql' // overwritten by process.env.GQL_HOST
     }
   },
   build: {

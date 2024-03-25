@@ -1,17 +1,21 @@
 <template>
-  <div>
-    {{ response }}
-  </div>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
-<script lang="ts" setup>
-const query = gql`
-query tasks {
-  tasks {
-    id
-    todo
-    done
-  }
+
+<style scoped>
+.demo-app-container {
+  height: 100dvh;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+  background-color: black;
 }
-`
-const response = await useAsyncQuery(query)
-</script>
+
+.demo-app {
+  display: block;
+  width: 100%;
+  max-width: 48rem;
+}
+</style>

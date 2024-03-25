@@ -1,0 +1,7 @@
+mutation createTask($todo: String!) {
+  createTask(todo: $todo) {
+    id
+    todo
+    done
+  }
+}
