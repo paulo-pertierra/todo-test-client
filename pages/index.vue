@@ -9,7 +9,6 @@
     <!-- <v-form @submit="createTask"> -->
       <v-text-field
       v-model="newTodoItem"
-      :rules="newItemRules"
       label="Add new todo item" 
       variant="solo-filled"
       append-inner-icon="mdi-plus"
@@ -47,9 +46,6 @@ const createTask = async () => {
   newTodoItem.value = "";
   tasksStore.reload();
 }
-
-const newItemRules = [(value: string) => !!value || 'This field is required.']
-
 </script>
 
 <style scoped>
