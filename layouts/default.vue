@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="app">
       <v-app>
-        <v-toolbar title="ToDo App Mini">
+        <v-toolbar class="toolbar" title="ToDo App Mini">
         <v-spacer></v-spacer>
 
         <v-btn icon>
@@ -35,5 +35,11 @@
 .app {
   margin: auto;
   max-width: 768px;
+}
+
+.toolbar {
+  position: sticky;
+  z-index: 5;
+  top: 0;
 }
 </style>
