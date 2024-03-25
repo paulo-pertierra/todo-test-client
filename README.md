@@ -1,75 +1,38 @@
-# Nuxt 3 Minimal Starter
+### Setting up and running the ToDo client on all platforms.
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+#### If you are using GNU/Linux, Docker may not support host.docker.internal without additional configuration.
 
-## Setup
+The easiest way to solve this is to change the `nuxt.config.ts` file's runtime config `GQL_HOST` to `http://localhost/graphql`.
 
-Make sure to install the dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+```
+  runtimeConfig: {
+    public: {
+      GQL_HOST: 'http://host.docker.internal/graphql' // overwritten by process.env.GQL_HOST
+    }
+  },
 ```
 
-## Development Server
+Next, run the following commands:
 
-Start the development server on `http://localhost:3000`:
+`docker build -t todo-test-client .`
 
-```bash
-# npm
-npm run dev
+`docker run -p 3000:3000 todo-test-client`
 
-# pnpm
-pnpm run dev
+If the app is working correctly, it must display
 
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+> start
+> node .output/server/index.mjs
 
-Build the application for production:
+Listening on http://[::]:3000
 
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
+This client can now be accessible via http://localhost:3000.
 
-```bash
-# npm
-npm run preview
+#### I tested the repository on:
 
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- Windows 11 x64
+- Ubuntu 22 and 23
+- Fedora 39 x64
