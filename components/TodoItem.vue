@@ -1,14 +1,17 @@
 <template>
   <v-list-item>
-    <v-text-field
+    <v-form v-if="isEditingName" ref="editTodoForm" @submit.prevent="updateName">
+      <v-text-field
       append-inner-icon="mdi-undo"
       v-model="newName"
       @click:append-inner="isEditingName = false"
-      @keyup.prevent.enter="updateName"
-      v-if="isEditingName"
+      :rules="todoInputRules"
+      @keyup.prevent.enter="$refs.editTodoForm!.$el.requestSubmit()"
+      validate-on="submit"
       density="compact"
       variant="underlined"
     ></v-text-field>
+    </v-form>
     <v-list-item-title v-else v-text="task.todo"></v-list-item-title>
     <template v-slot:prepend>
       <v-icon v-if="task.done" @click="unsetDone" icon="mdi-check-circle" />
@@ -32,6 +35,10 @@
 import type { Task } from '~/types/task.type';
 import { useTasksStore } from '~/store/tasks.store';
 const tasksStore = useTasksStore();
+
+const props = defineProps<{
+  task: Task
+}>()
 
 const deleteTask = async () => {
   await useAsyncGql({
@@ -66,9 +73,9 @@ const unsetDone = async () => {
 }
 
 const isEditingName = ref(false);
-const newName = ref("");
+const newName = ref(props.task.todo);
 const updateName = async () => {
-  await useAsyncGql({
+  const result = await useAsyncGql({
     operation: "updateTask",
     variables: {
       id: props.task.id,
@@ -76,11 +83,13 @@ const updateName = async () => {
       done: props.task.done
     }
   })
+  if (result.error.value) return;
+  
   isEditingName.value = false
   tasksStore.reload();
 }
 
-const props = defineProps<{
-  task: Task
-}>()
+const todoInputRules = [
+  (v: string) => !!v || 'Name is required',
+]
 </script>
